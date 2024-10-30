@@ -4,7 +4,11 @@ import { AppService } from './app.service';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/organization-app'),
+    ConfigModule.forRoot(),  // Ensures access to environment variables
+    RedisModule.forRoot({
+      url: process.env.REDIS_URL,  // Adjust the Redis URL as needed
+    }),
+    MongooseModule.forRoot(process.env.MONGODB_URL),
   ],
   controllers: [AppController],
   providers: [AppService],

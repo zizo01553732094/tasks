@@ -23,4 +23,11 @@ export class AuthController {
   async refreshToken(@Body() body: any) {
     return { message: 'Token refreshed', access_token: 'new_token', refresh_token: 'new_refresh_token' };
   }
+
+  @Post('revoke-refresh-token')
+  @UseGuards(JwtAuthGuard)
+  async revokeRefreshToken(@Body('refresh_token') refreshToken: string, @Request() req) {
+    await this.refreshTokenService.revokeRefreshToken(refreshToken);
+    return { message: 'Refresh token revoked successfully' };
+  }
 }
